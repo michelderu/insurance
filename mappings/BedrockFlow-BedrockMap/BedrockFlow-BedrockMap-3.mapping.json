@@ -1,0 +1,32 @@
+{
+  "language" : "zxx",
+  "name" : "BedrockFlow-BedrockMap",
+  "description" : "",
+  "version" : 3,
+  "targetEntityType" : "http://example.org/Customer-0.0.1/Customer",
+  "sourceContext" : "/",
+  "sourceURI" : "/Users/mderu/projects/insurance/datasets/bedrock/1306ec5b-d955-4a1d-a6bc-656c5be8ccdf.json",
+  "properties" : {
+    "firstname" : {
+      "sourcedFrom" : "first_name"
+    },
+    "pin" : {
+      "sourcedFrom" : "pin"
+    },
+    "id" : {
+      "sourcedFrom" : "id"
+    },
+    "postal" : {
+      "sourcedFrom" : "zip"
+    },
+    "updated" : {
+      "sourcedFrom" : "last_updated"
+    },
+    "email" : {
+      "sourcedFrom" : "email"
+    },
+    "lastname" : {
+      "sourcedFrom" : "last_name"
+    }
+  }
+}
