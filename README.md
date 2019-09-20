@@ -11,30 +11,27 @@
       - This is achieved by calling a library(zipcodeData.sjs) invoked within the custom step 
     - Writes those coordinates as new document properties
 
-## How to install
+## Prerequisites
 
-To try this project out using QuickStart, start with a clean MarkLogic instance - i.e. without an existing Data hub installation.
-Then, you can either install this project's application via QuickStart or via Gradle.
+- Docker environment
+- Have valid docker credentials in `$DOCKERUSER` and `$DOCKERPW`
+- Java 8
+- Commands are based on OSX/Linux shell
 
-### Install via QuickStart
+## Run MarkLogic Docker
 
-To install via QuickStart, simply start QuickStart and browse to this project folder. Use QuickStart to initialize
-this project and then deploy the application.
+On the host machine:
 
-### Install via Gradle
-
-To install via Gradle, first initialize the project:
-
-    ./gradlew -i hubInit
-    
-Then modify the gradle-local.properties file and either un-comment the mlUsername and mlPassword properties and set the
-password for your admin user, or set the properties to a different MarkLogic user that is able to deploy applications. 
-
-Then deploy the application:
-
-    ./gradlew -i mlDeploy
-
-Next, start up QuickStart and browse to this project folder and login to QuickStart. 
+```sh
+docker login -u $DOCKERUSER -p $DOCKERPW
+mkdir -p /Users/shared/insurance
+docker run -d -it -p 8000-8020:8000-8020 \
+     -v /Users/shared/insurance:/var/opt/MarkLogic \
+     -e MARKLOGIC_INIT=true \
+     -e MARKLOGIC_ADMIN_USERNAME=admin \
+     -e MARKLOGIC_ADMIN_PASSWORD=admin \
+     --name insurance store/marklogicdb/marklogic-server:10.0-1-dev-centos
+```
 
 ## Predefined Flows
 
@@ -44,7 +41,7 @@ The project has flows predefined for integrating the customer data.
 - **BedrockFlow**: Has steps for ingesting and mapping Bedrock customer data.
 - **CustomerMastering**: Has a mastering step for matching and merging duplicate customers across the Advantage and Bedrock datasets.
 
-There is also a flow to enrich data
+There is also a flow to enrich data (OPTIONAL)
 
 - **customEnrichment**: Has steps for ingestion and a custom step to enrich customer data
 
@@ -63,7 +60,7 @@ You can finish configuring the flows and run the steps to complete the integrati
 1. Run the `CustomerMaster` flow to master the Advantage and Bedrock customer data. This merges documents for two matching customers in the final database. You can view the results in the Browse Data view.
 
 
-## How to Enrich Customer Data Using Custom Step
+## How to Enrich Customer Data Using Custom Step (OPTIONAL)
 
 1. Using Data Hub QuickStart with a clean MarkLogic server, select and install the example project folder: examples/insurance. Skip this step if this insurance example has been installed already
 1. View the `AdvantageEnrichment` flow. It has 2 steps, one for ingestion called `AdvantageIngest` and a custom step called `AdvantageEnrich`
@@ -132,5 +129,37 @@ pin        int
 updated    dateTime
 ```
 
+## Show Operational use-case
+Open the default search endpoint at http://localhost:8011/v1/search and search for Ms. gates using q=Gates
+You could also use Postman to do this
 
+## Show analytical use-case
+Use MS Power BI using DirectQuery connector to connect to MarkLogic. This requires you top create a ODBC server.
 
+Open the Admin Interface at http://localhost:8001 and create a new ODBC server (name=odbc, root=/, port=8014, modules=data-hub-MODULES, database=data-hub-FINAL, authentication=basic).
+
+Then connect to the ODBC endpoint using localhost:8014 (or 10.0.2.2:8014 on Virtualbox) and show that PBI is able to fetch the data based on the entity defintion 'Customer'.
+
+## Show Data Scientist use-case
+### Run CNTK and Jupyter Docker
+
+Run the container while linking to MarkLogic and setting the current directory as a mount
+
+```sh
+docker pull microsoft/cntk:2.3-cpu-python3.5
+docker run -d -p 8888:8888 \
+     --name cntk-jupyter-notebooks \
+     --link insurance -v `pwd`:/mount \
+     -t microsoft/cntk:2.3-cpu-python3.5
+```
+
+### Run Jupyter as Data Scientist environment
+
+```sh
+docker exec -it cntk-jupyter-notebooks bash -c "source /cntk/activate-cntk && jupyter-notebook --no-browser --port=8888 --ip=0.0.0.0 --notebook-dir=/mount --allow-root"
+```
+### Use the Jupyter notebook for retrieving data
+
+Open the Jupyter notebook at http://0.0.0.0:8888/, or better yet follow the link (with the `?token=` parameter) in the output of the above `docker exec` command. Open the 'Get_SQL_from_DataHub.ipynb' notebook and run in sequence.
+
+This step retrieves the data from the Data Hub using SQL so it can be used by the Data Scientist.
