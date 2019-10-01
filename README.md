@@ -16,21 +16,31 @@
 - Docker environment
 - Have valid docker credentials in `$DOCKERUSER` and `$DOCKERPW`
 - Java 8
+- MarkLogic Data Hub Quickstart 5.0.2
 - Commands are based on OSX/Linux shell
 
-## Run MarkLogic Docker
+## Run MarkLogic 10 from Docker Hub
+
+Open the Docker Hub at https://hub.docker.com/_/marklogic, login with your credentials, and checkout the MarkLogic Developer version.
 
 On the host machine:
 
 ```sh
 docker login -u $DOCKERUSER -p $DOCKERPW
-mkdir -p /Users/shared/insurance
 docker run -d -it -p 8000-8020:8000-8020 \
-     -v /Users/shared/insurance:/var/opt/MarkLogic \
+     -v `pwd`/MarkLogic:/var/opt/MarkLogic \
      -e MARKLOGIC_INIT=true \
      -e MARKLOGIC_ADMIN_USERNAME=admin \
      -e MARKLOGIC_ADMIN_PASSWORD=admin \
      --name insurance store/marklogicdb/marklogic-server:10.0-1-dev-centos
+```
+
+## Run MarkLogic Data Hub Quickstart
+
+On the host machine:
+
+```sh
+java -jar marklogic-datahub-5.0.2.war
 ```
 
 ## Predefined Flows
@@ -131,35 +141,25 @@ updated    dateTime
 
 ## Show Operational use-case
 Open the default search endpoint at http://localhost:8011/v1/search and search for Ms. gates using q=Gates
-You could also use Postman to do this
+You could also use Postman to do this.
+
+Additionally pull the document from the Data Hub at http://localhost:8011/v1/documents using uri=<uri id>.
 
 ## Show analytical use-case
-Use MS Power BI using DirectQuery connector to connect to MarkLogic. This requires you top create a ODBC server.
+Use MS Power BI using DirectQuery connector to connect to MarkLogic. In order to enable this, an ODBC server has been created within MarkLogic Server running on port 8014, during deployment.
 
-Open the Admin Interface at http://localhost:8001 and create a new ODBC server (name=odbc, root=/, port=8014, modules=data-hub-MODULES, database=data-hub-FINAL, authentication=basic).
-
-Then connect to the ODBC endpoint using localhost:8014 (or 10.0.2.2:8014 on Virtualbox) and show that PBI is able to fetch the data based on the entity defintion 'Customer'.
+Now connect to the ODBC endpoint using odbc://localhost:8014 (or 10.0.2.2:8014 on Virtualbox) and show that PBI is able to fetch the data based on the entity defintion 'Customer'.
 
 ## Show Data Scientist use-case
-### Run CNTK and Jupyter Docker
-
-Run the container while linking to MarkLogic and setting the current directory as a mount
-
-```sh
-docker pull microsoft/cntk:2.3-cpu-python3.5
-docker run -d -p 8888:8888 \
-     --name cntk-jupyter-notebooks \
-     --link insurance -v `pwd`:/mount \
-     -t microsoft/cntk:2.3-cpu-python3.5
-```
+For this use-case, use your favorite Jupyter Notebook environment. For instance the excellent package from Anaconda: https://www.anaconda.com/
 
 ### Run Jupyter as Data Scientist environment
 
 ```sh
-docker exec -it cntk-jupyter-notebooks bash -c "source /cntk/activate-cntk && jupyter-notebook --no-browser --port=8888 --ip=0.0.0.0 --notebook-dir=/mount --allow-root"
+jupyter notebook
 ```
 ### Use the Jupyter notebook for retrieving data
 
-Open the Jupyter notebook at http://0.0.0.0:8888/, or better yet follow the link (with the `?token=` parameter) in the output of the above `docker exec` command. Open the 'Get_SQL_from_DataHub.ipynb' notebook and run in sequence.
+Open the Jupyter notebook at http://0.0.0.0:8888/. Open the 'Get_SQL_from_DataHub.ipynb' notebook and run in sequence.
 
 This step retrieves the data from the Data Hub using SQL so it can be used by the Data Scientist.

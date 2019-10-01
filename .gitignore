@@ -1,1 +1,5 @@
-src/main/ml-config
+.DS_Store
+MarkLogic
+.tmp
+.gradle
+.ipynb_checkpoints

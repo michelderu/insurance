@@ -37,9 +37,9 @@
         "outputURIReplacement" : "",
         "separator" : ","
       },
+      "mappingName" : null,
       "mappingStep" : false,
-      "customStep" : false,
-      "mappingName" : null
+      "customStep" : false
     },
     "2" : {
       "name" : "BedrockMap",
@@ -49,7 +49,7 @@
         "sourceQuery" : "cts.collectionQuery([\"BedrockIngest\"])",
         "mapping" : {
           "name" : "BedrockFlow-BedrockMap",
-          "version" : 5
+          "version" : 6
         },
         "targetEntity" : "Customer",
         "sourceDatabase" : "data-hub-STAGING",
@@ -63,9 +63,9 @@
       "threadCount" : null,
       "stepDefinitionName" : "default-mapping",
       "stepDefinitionType" : "MAPPING",
+      "mappingName" : "BedrockFlow-BedrockMap",
       "mappingStep" : true,
-      "customStep" : false,
-      "mappingName" : "BedrockFlow-BedrockMap"
+      "customStep" : false
     }
   }
 }
