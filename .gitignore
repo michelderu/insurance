@@ -3,3 +3,4 @@ MarkLogic
 .tmp
 .gradle
 .ipynb_checkpoints
+build
