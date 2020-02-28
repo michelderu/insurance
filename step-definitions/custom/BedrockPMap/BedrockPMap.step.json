@@ -1,0 +1,22 @@
+{
+  "language" : "zxx",
+  "name" : "BedrockPMap",
+  "description" : "",
+  "type" : "CUSTOM",
+  "version" : 1,
+  "options" : {
+    "additionalCollections" : [ ],
+    "sourceQuery" : "cts.collectionQuery([\"BedrockIngest\"])",
+    "targetEntity" : "Customer",
+    "collections" : [ "BedrockPMap", "Customer" ],
+    "sourceDatabase" : "data-hub-STAGING",
+    "sourceCollection" : "BedrockIngest",
+    "outputFormat" : "json",
+    "targetDatabase" : "data-hub-FINAL"
+  },
+  "customHook" : { },
+  "modulePath" : "/custom-modules/custom/BedrockPMap/main.sjs",
+  "retryLimit" : 0,
+  "batchSize" : 100,
+  "threadCount" : 4
+}

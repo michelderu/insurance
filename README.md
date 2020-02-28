@@ -32,7 +32,7 @@ docker run -d -it -p 8000-8020:8000-8020 \
      -e MARKLOGIC_INIT=true \
      -e MARKLOGIC_ADMIN_USERNAME=admin \
      -e MARKLOGIC_ADMIN_PASSWORD=admin \
-     --name insurance store/marklogicdb/marklogic-server:10.0-1-dev-centos
+     --name insurance store/marklogicdb/marklogic-server:10.0-2-dev-centos
 ```
 
 ## Run MarkLogic Data Hub Quickstart
@@ -42,6 +42,15 @@ On the host machine:
 ```sh
 java -jar marklogic-datahub-5.0.2.war
 ```
+
+## Run Pipes
+
+On the host machine:
+
+```sh
+java -jar marklogic-pipes-1.0-beta.1.jar --deployBackend=true
+```
+
 
 ## Predefined Flows
 
