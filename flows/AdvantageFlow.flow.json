@@ -26,9 +26,9 @@
         "targetDatabase" : "data-hub-STAGING"
       },
       "customHook" : { },
-      "retryLimit" : null,
-      "batchSize" : null,
-      "threadCount" : null,
+      "retryLimit" : 0,
+      "batchSize" : 0,
+      "threadCount" : 0,
       "stepDefinitionName" : "default-ingestion",
       "stepDefinitionType" : "INGESTION",
       "fileLocations" : {
@@ -49,7 +49,7 @@
         "sourceQuery" : "cts.collectionQuery([\"AdvantageIngest\"])",
         "mapping" : {
           "name" : "AdvantageFlow-AdvantageMap",
-          "version" : 1
+          "version" : 3
         },
         "targetEntity" : "Customer",
         "sourceDatabase" : "data-hub-STAGING",
@@ -58,9 +58,9 @@
         "targetDatabase" : "data-hub-FINAL"
       },
       "customHook" : { },
-      "retryLimit" : 0,
-      "batchSize" : 0,
-      "threadCount" : 0,
+      "retryLimit" : null,
+      "batchSize" : null,
+      "threadCount" : null,
       "stepDefinitionName" : "default-mapping",
       "stepDefinitionType" : "MAPPING",
       "mappingStep" : true,

@@ -26,9 +26,9 @@
         "targetDatabase" : "data-hub-STAGING"
       },
       "customHook" : { },
-      "retryLimit" : null,
-      "batchSize" : null,
-      "threadCount" : null,
+      "retryLimit" : 0,
+      "batchSize" : 0,
+      "threadCount" : 0,
       "stepDefinitionName" : "default-ingestion",
       "stepDefinitionType" : "INGESTION",
       "fileLocations" : {
@@ -42,25 +42,25 @@
       "mappingName" : null
     },
     "2" : {
-      "name" : "BedrockPMap",
+      "name" : "MapBedrockToCustomer",
       "description" : "",
       "options" : {
         "additionalCollections" : [ ],
         "sourceQuery" : "cts.collectionQuery([\"BedrockIngest\"])",
         "targetEntity" : "Customer",
-        "collections" : [ "BedrockPMap", "Customer" ],
+        "collections" : [ "MapBedrockToCustomer", "Customer" ],
         "sourceDatabase" : "data-hub-STAGING",
         "sourceCollection" : "BedrockIngest",
         "outputFormat" : "json",
         "targetDatabase" : "data-hub-FINAL"
       },
       "customHook" : null,
-      "retryLimit" : 0,
-      "batchSize" : 0,
-      "threadCount" : 0,
-      "stepDefinitionName" : "BedrockPMap",
+      "retryLimit" : null,
+      "batchSize" : null,
+      "threadCount" : null,
+      "stepDefinitionName" : "MapBedrockToCustomer",
       "stepDefinitionType" : "CUSTOM",
-      "modulePath" : "/custom-modules/custom/BedrockPMap/main.sjs",
+      "modulePath" : "/custom-modules/custom/MapBedrockToCustomer/main.sjs",
       "mappingStep" : false,
       "customStep" : true,
       "mappingName" : null

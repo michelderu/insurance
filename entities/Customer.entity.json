@@ -15,6 +15,7 @@
       "properties" : {
         "id" : {
           "datatype" : "string",
+          "description" : "From source system",
           "collation" : "http://marklogic.com/collation/codepoint"
         },
         "firstname" : {
